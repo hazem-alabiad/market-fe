@@ -29,7 +29,7 @@ export const ProductList = () => {
 
   return (
     <>
-      <ProductsGrid cards={products} />
+      <ProductsGrid cards={products.data} />
       <button
         disabled={isFetching}
         onClick={() => setPage(page - 1)}
