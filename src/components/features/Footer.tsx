@@ -13,4 +13,5 @@ const StyledFooter = styled.footer`
   display: flex;
   gap: 1rem;
   justify-content: center;
+  margin-top: 136px;
 `;

@@ -137,6 +137,21 @@
       }
     ],
     // ------------------------------------------------
+    // redux
+    // ------------------------------------------------
+    "no-restricted-imports": "off",
+    "@typescript-eslint/no-restricted-imports": [
+      "warn",
+      {
+        "name": "react-redux",
+        "importNames": [
+          "useSelector",
+          "useDispatch"
+        ],
+        "message": "Use typed hooks `useAppDispatch` and `useAppSelector` instead."
+      }
+    ],
+    // ------------------------------------------------
     // ------------------------------------------------
     // ------------------------------------------------
     "line-comment-position": "off",
@@ -243,11 +258,6 @@
     "no-process-exit": "error",
     "no-proto": "error",
     "no-prototype-builtins": "error",
-    "no-restricted-globals": "error",
-    "no-restricted-imports": "error",
-    "no-restricted-modules": "error",
-    "no-restricted-properties": "error",
-    "no-restricted-syntax": "error",
     "no-return-assign": "error",
     "no-return-await": "error",
     "no-script-url": "error",

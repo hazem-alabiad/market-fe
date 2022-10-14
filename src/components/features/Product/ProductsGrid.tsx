@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
+import { useAppDispatch } from "../../../redux/store";
 import { Product } from "../../../services/productsApi";
-import { useShoppingCart } from "../Header/subComponents/ShoppingCart/useShoppingCart";
+import { addToCart } from "../Header/subComponents/ShoppingCart/shoppingCartSlice";
 import { ProductCard } from "./ProductCard";
 
 type Props = {
@@ -9,17 +10,17 @@ type Props = {
 };
 
 export const ProductsGrid = ({ cards }: Props) => {
-  const { addItem } = useShoppingCart();
+  const dispatch = useAppDispatch();
 
   return (
     <StyledGrid>
-      {cards.map(({ added, name, price }, index) => (
+      {cards.map((item, index) => (
         <ProductCard
           image={`https://picsum.photos/200?random=${index}.webp`}
-          key={added}
-          name={name}
-          onClick={() => addItem({ added, name, price })}
-          price={price}
+          key={item.added}
+          name={item.name}
+          onClick={() => dispatch(addToCart(item))}
+          price={item.price}
         />
       ))}
     </StyledGrid>

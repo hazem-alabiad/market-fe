@@ -26,4 +26,5 @@ const StyledButton = styled.button<{ isFullWidth?: boolean }>`
   font-size: 12px;
   font-weight: 600;
   height: 22px;
+  cursor: pointer;
 `;

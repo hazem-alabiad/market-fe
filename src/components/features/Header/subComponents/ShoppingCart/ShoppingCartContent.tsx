@@ -3,20 +3,27 @@ import styled from "styled-components";
 
 import { ReactComponent as Minus } from "../../../../../assets/minus.svg";
 import { ReactComponent as Plus } from "../../../../../assets/plus.svg";
+import { useAppDispatch, useAppSelector } from "../../../../../redux/store";
 import { device } from "../../../../../theme/breakpoints";
 import { Price } from "../../../../ui/Price";
-import { useShoppingCart } from "./useShoppingCart";
+import { addToCart, removeFromCart } from "./shoppingCartSlice";
 
 type Props = {
   isOpen: boolean;
 };
 
 export const ShoppingCartContent = ({ isOpen }: Props) => {
-  const { cart, addItem, removeItem } = useShoppingCart();
+  const { items } = useAppSelector((state) => state.shoppingCart);
+  const dispatch = useAppDispatch();
+
+  const totalPrice = items.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
 
   return (
     <StyledContainer isOpen={isOpen}>
-      {cart.map((item) => (
+      {items.map((item) => (
         <StyledCartItem key={item.added}>
           <StyledFlexColumnContainer>
             {item.name}
@@ -24,22 +31,24 @@ export const ShoppingCartContent = ({ isOpen }: Props) => {
           </StyledFlexColumnContainer>
           <StyledFlexRowContainer>
             <StyledOperatorWrapper>
-              <StyledQuantityOperator onClick={() => removeItem(item.added)}>
+              <StyledQuantityOperator
+                onClick={() => dispatch(removeFromCart({ itemId: item.added }))}
+              >
                 <Minus />
               </StyledQuantityOperator>
             </StyledOperatorWrapper>
             <StyledItemQuantity>{item.quantity}</StyledItemQuantity>
             <StyledOperatorWrapper>
-              <StyledQuantityOperator onClick={() => addItem(item)}>
+              <StyledQuantityOperator onClick={() => dispatch(addToCart(item))}>
                 <Plus />
               </StyledQuantityOperator>
             </StyledOperatorWrapper>
           </StyledFlexRowContainer>
         </StyledCartItem>
       ))}
-      {cart.length ? (
+      {items.length ? (
         <StyledCartTotal>
-          <Price theme="secondary" />
+          <Price theme="secondary" value={totalPrice} />
         </StyledCartTotal>
       ) : (
         <FormattedMessage defaultMessage="Your basket is empty!" id="RrdAEK" />
@@ -84,7 +93,7 @@ const StyledCartItem = styled.div`
 `;
 
 const StyledCartTotal = styled.div`
-  width: 92px;
+  min-width: 92px;
   padding: 17px 24px;
   margin-left: auto;
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
+import { Product } from "../../../../../services/productsApi";
 import { LOCAL_STORAGE_KEYS } from "../../../../../utils/constants";
-import { Product } from "../../../HomePage";
 
 export type ShoppingCartItem = Pick<Product, "added" | "name" | "price"> & {
   quantity: number;
@@ -20,6 +20,9 @@ export const useShoppingCart = () => {
 
   return {
     cart,
+    totalPrice: cart
+      .map((item) => item.price * item.quantity)
+      .reduce((accumulative, currentValue) => accumulative + currentValue, 0),
 
     addItem: (item: Omit<ShoppingCartItem, "quantity">) => {
       const existingItem = cart.find(
