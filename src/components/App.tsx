@@ -9,6 +9,10 @@ export const App = () => {
       path: ROUTES["/"],
       element: <HomePage />,
     },
+    {
+      path: ROUTES.products,
+      element: <HomePage />,
+    },
   ]);
 
   return <RouterProvider router={router} />;

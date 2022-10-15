@@ -16,16 +16,10 @@ export const HomePage = () => (
 );
 
 const StyledProductsContainer = styled.main`
-  @media ${device.tablet} {
-    width: 484px;
-    margin: 0 auto;
-    padding: 20px;
-  }
+  margin: 0 auto;
 
   @media ${device.laptop} {
     width: 608px;
-    margin: 0 auto;
-    padding: 20px;
   }
 `;
 

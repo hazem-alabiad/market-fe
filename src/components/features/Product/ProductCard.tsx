@@ -19,10 +19,14 @@ export const ProductCard = ({
       <Price theme="secondary" value={price} />
     </StyledPrice>
     <StyledName>{name}</StyledName>
-    <Button
-      label={<FormattedMessage defaultMessage="Add" id="2/2yg+" />}
-      onClick={onClick}
-    />
+    <StyledButtonWrapper>
+      <Button
+        height="22px"
+        isFullWidth={true}
+        label={<FormattedMessage defaultMessage="Add" id="2/2yg+" />}
+        onClick={onClick}
+      />
+    </StyledButtonWrapper>
   </div>
 );
 
@@ -42,4 +46,8 @@ const StyledName = styled.div`
 
 const StyledPrice = styled.div`
   padding-top: 9px;
+`;
+
+const StyledButtonWrapper = styled.div`
+  height: 22px;
 `;

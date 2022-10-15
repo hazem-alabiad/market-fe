@@ -1,17 +1,16 @@
-import { useState } from "react";
-import { FormattedMessage } from "react-intl";
+import { useSearchParams } from "react-router-dom";
+import styled from "styled-components";
 
 import { useProductsQuery } from "../../../services/productsApi";
+import { Pagination } from "../Pagination/Pagination";
 import { ProductsGrid } from "./ProductsGrid";
 
 export const ProductList = () => {
-  const [page, setPage] = useState(1);
-  const {
-    data: products,
-    isLoading,
-    isFetching,
-    error,
-  } = useProductsQuery(page);
+  const [searchParams] = useSearchParams();
+
+  const page = Number(searchParams.get("page")) || 1;
+
+  const { data: products, isLoading, error } = useProductsQuery(page);
 
   if (isLoading) {
     return <div>Loading ...</div>;
@@ -30,20 +29,18 @@ export const ProductList = () => {
   return (
     <>
       <ProductsGrid cards={products.data} />
-      <button
-        disabled={isFetching}
-        onClick={() => setPage(page - 1)}
-        type="button"
-      >
-        <FormattedMessage defaultMessage="Previous" id="JJNc3c" />
-      </button>
-      <button
-        disabled={isFetching}
-        onClick={() => setPage(page + 1)}
-        type="button"
-      >
-        <FormattedMessage defaultMessage="Next" id="9+Ddtu" />
-      </button>
+      <StyledPaginationWrapper>
+        <Pagination />
+      </StyledPaginationWrapper>
     </>
   );
 };
+
+const StyledPaginationWrapper = styled.nav`
+  padding: 0;
+  margin: 0;
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;

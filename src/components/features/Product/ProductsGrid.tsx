@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 import { useAppDispatch } from "../../../redux/store";
 import { Product } from "../../../services/productsApi";
+import { device } from "../../../theme/breakpoints";
 import { addToCart } from "../Header/subComponents/ShoppingCart/shoppingCartSlice";
 import { ProductCard } from "./ProductCard";
 
@@ -30,7 +31,14 @@ export const ProductsGrid = ({ cards }: Props) => {
 const StyledGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, 124px);
-  grid-gap: 24px;
+  grid-gap: 16px;
   grid-auto-rows: auto;
   place-content: center;
+  background-color: ${({ theme }) => theme.brand.primary.background};
+  padding: 16px;
+
+  @media ${device.desktop} {
+    grid-gap: 24px;
+    padding: 20px;
+  }
 `;

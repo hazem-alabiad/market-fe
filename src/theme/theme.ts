@@ -2,8 +2,6 @@ import { createGlobalStyle, DefaultTheme } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
   :root {
-    /* max(MIN, min(VAL, MAX)) */
-    /* font-size: clamp(1rem, 2vw, 3rem); */
   }
   
   html {
@@ -22,6 +20,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
     line-height: 20px;
+    background-color: ${({ theme }) => theme.color.gray90};
   }
 
   h1 {
@@ -43,5 +42,10 @@ export const theme: DefaultTheme = {
       text: "#fff",
       background: "#1EA4CE",
     },
+  },
+
+  color: {
+    gray90: "#F7F6F9",
+    blueGray: "#697488",
   },
 };

@@ -18,5 +18,9 @@ declare module "styled-components" {
         background: string;
       };
     };
+    color: {
+      gray90: string;
+      blueGray: string;
+    };
   }
 }
