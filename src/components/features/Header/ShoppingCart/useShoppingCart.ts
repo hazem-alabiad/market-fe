@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-import { Product } from "../../../../../services/productsApi";
-import { LOCAL_STORAGE_KEYS } from "../../../../../utils/constants";
+import { Product } from "../../../../services/productsApi";
+import { LOCAL_STORAGE_KEYS } from "../../../../utils/constants";
 
 export type ShoppingCartItem = Pick<Product, "added" | "name" | "price"> & {
   quantity: number;

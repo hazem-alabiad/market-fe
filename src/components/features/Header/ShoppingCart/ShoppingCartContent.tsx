@@ -1,11 +1,11 @@
 import { FormattedMessage } from "react-intl";
 import styled from "styled-components";
 
-import { ReactComponent as Minus } from "../../../../../assets/minus.svg";
-import { ReactComponent as Plus } from "../../../../../assets/plus.svg";
-import { useAppDispatch, useAppSelector } from "../../../../../redux/store";
-import { device } from "../../../../../theme/breakpoints";
-import { Price } from "../../../../ui/Price";
+import { ReactComponent as Minus } from "../../../../assets/minus.svg";
+import { ReactComponent as Plus } from "../../../../assets/plus.svg";
+import { useAppDispatch, useAppSelector } from "../../../../redux/store";
+import { device } from "../../../../theme/breakpoints";
+import { Price } from "../../../ui/Price";
 import { addToCart, removeFromCart } from "./shoppingCartSlice";
 
 type Props = {

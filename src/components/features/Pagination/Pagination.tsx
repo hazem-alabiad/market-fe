@@ -97,7 +97,7 @@ export const Pagination = () => {
           {Array.from({ length: totalPages })
             .map((_, index) => index + 1)
             .map((pageNumber) => (
-              <option key={pageNumber}>
+              <option key={pageNumber} value={pageNumber}>
                 <FormattedNumber value={pageNumber} />
               </option>
             ))}

@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 import { ReactComponent as Logo } from "../../../assets/logo.svg";
 import { device } from "../../../theme/breakpoints";
-import { ShoppingCart } from "./subComponents/ShoppingCart/ShoppingCart";
-import { ShoppingCartContent } from "./subComponents/ShoppingCart/ShoppingCartContent";
+import { ShoppingCart } from "./ShoppingCart/ShoppingCart";
+import { ShoppingCartContent } from "./ShoppingCart/ShoppingCartContent";
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
