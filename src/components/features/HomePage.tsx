@@ -5,7 +5,7 @@ import { device } from "../../theme/breakpoints";
 import { Text } from "../ui/Text";
 import { Footer } from "./Footer";
 import { Header } from "./pagination/header/Header";
-import { ItemTypeFilter } from "./product/filters/ItemTypeFilter";
+import { ItemTypeFilter } from "./product/filter/ItemTypeFilter";
 import { ProductList } from "./product/ProductManager";
 import { Sorting } from "./product/sorting/Sorting";
 

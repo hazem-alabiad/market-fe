@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import { useGetProductsQuery } from "../../../services/productsApi";
 import { Pagination } from "../pagination/Pagination";
-import { useUrlParams } from "./filters/useUrlParams";
+import { useUrlParams } from "./filter/useUrlParams";
 import { ProductsGrid } from "./ProductsGrid";
 
 export const ProductList = () => {
