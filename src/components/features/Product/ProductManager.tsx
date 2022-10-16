@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 import { useGetProductsQuery } from "../../../services/productsApi";
-import { Pagination } from "../Pagination/Pagination";
+import { Pagination } from "../pagination/Pagination";
 import { useUrlParams } from "./filters/useUrlParams";
 import { ProductsGrid } from "./ProductsGrid";
 

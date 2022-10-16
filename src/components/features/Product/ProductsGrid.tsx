@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useAppDispatch } from "../../../redux/store";
 import { Product } from "../../../services/productsApi";
 import { device } from "../../../theme/breakpoints";
-import { addToCart } from "../Header/ShoppingCart/shoppingCartSlice";
+import { addToCart } from "../pagination/header/shoppingCart/shoppingCartSlice";
 import { ProductCard } from "./ProductCard";
 
 type Props = {

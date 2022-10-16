@@ -4,10 +4,10 @@ import styled, { useTheme } from "styled-components";
 import { device } from "../../theme/breakpoints";
 import { Text } from "../ui/Text";
 import { Footer } from "./Footer";
-import { Header } from "./Header/Header";
-import { ItemTypeFilter } from "./Product/filters/ItemTypeFilter";
-import { ProductList } from "./Product/ProductManager";
-import { Sorting } from "./Product/Sorting";
+import { Header } from "./pagination/header/Header";
+import { ItemTypeFilter } from "./product/filters/ItemTypeFilter";
+import { ProductList } from "./product/ProductManager";
+import { Sorting } from "./product/sorting/Sorting";
 
 export const HomePage = () => {
   const { colors } = useTheme();

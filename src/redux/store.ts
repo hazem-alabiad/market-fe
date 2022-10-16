@@ -12,7 +12,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-import { shoppingCartReducer } from "../components/features/Header/ShoppingCart/shoppingCartSlice";
+import { shoppingCartReducer } from "../components/features/pagination/header/shoppingCart/shoppingCartSlice";
 import { productsApi } from "../services/productsApi";
 
 const persistConfig = {

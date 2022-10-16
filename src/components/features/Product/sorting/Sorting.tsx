@@ -3,10 +3,10 @@ import { FormattedMessage } from "react-intl";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 
-import { device } from "../../../theme/breakpoints";
-import { ROUTES } from "../../../utils/routes";
-import { Text } from "../../ui/Text";
-import { useUrlParams } from "./filters/useUrlParams";
+import { device } from "../../../../theme/breakpoints";
+import { ROUTES } from "../../../../utils/routes";
+import { Text } from "../../../ui/Text";
+import { useUrlParams } from "../filters/useUrlParams";
 
 const FILTERS = [
   {

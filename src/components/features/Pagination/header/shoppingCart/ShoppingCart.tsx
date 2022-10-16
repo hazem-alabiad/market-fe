@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-import { ReactComponent as Basket } from "../../../../assets/basket.svg";
-import { useAppSelector } from "../../../../redux/store";
-import { Price } from "../../../ui/Price";
+import { ReactComponent as Basket } from "../../../../../assets/basket.svg";
+import { useAppSelector } from "../../../../../redux/store";
+import { Price } from "../../../../ui/Price";
 
 export const ShoppingCart = () => {
   const { items } = useAppSelector((state) => state.shoppingCart);

@@ -8,7 +8,7 @@ import { ReactComponent as RightArrow } from "../../../assets/right-arrow.svg";
 import { useGetProductsQuery } from "../../../services/productsApi";
 import { device } from "../../../theme/breakpoints";
 import { ROUTES } from "../../../utils/routes";
-import { useUrlParams } from "../Product/filters/useUrlParams";
+import { useUrlParams } from "../product/filters/useUrlParams";
 
 export const Pagination = () => {
   const { itemType, page } = useUrlParams();
