@@ -34,7 +34,7 @@ const StyledSwitch = styled.div`
 const StyledSwitchItem = styled(Link)`
   text-decoration: none;
   padding: 6px 16px;
-  background: #f2f0fd;
+  background: ${({ theme }) => theme.colors.whiteSmoke};
   color: ${({ theme }) => theme.brand.secondary.text};
   border-radius: 2px;
   margin: 16px 0;

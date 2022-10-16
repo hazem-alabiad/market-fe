@@ -1,21 +1,21 @@
-import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { useGetProductsQuery } from "../../../services/productsApi";
 import { Pagination } from "../Pagination/Pagination";
+import { useUrlParams } from "./filters/useUrlParams";
 import { ProductsGrid } from "./ProductsGrid";
 
 export const ProductList = () => {
-  const [searchParams] = useSearchParams();
-
-  const itemType = searchParams.get("itemType");
-  const page = Number(searchParams.get("page")) || 1;
+  const { itemType, page, sortBy, sortDirection } = useUrlParams();
 
   const {
     data: products,
     isLoading,
     error,
-  } = useGetProductsQuery({ page, itemType });
+  } = useGetProductsQuery({
+    page,
+    filters: { itemType, sortBy, sortDirection },
+  });
 
   if (isLoading) {
     return <StyledContainer>Loading ...</StyledContainer>;

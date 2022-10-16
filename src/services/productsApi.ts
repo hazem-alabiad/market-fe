@@ -28,17 +28,27 @@ const LIMIT = 12;
 
 type GetProductsArgs = {
   page: number;
-  itemType?: string | null;
+  filters?: {
+    itemType: string | null;
+    sortBy: string | null;
+    sortDirection: string | null;
+  };
 };
 
 export const productsApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000" }),
   endpoints: (builder) => ({
     getProducts: builder.query<ListResponse<Product>, GetProductsArgs | void>({
-      query: ({ page = 1, itemType }: GetProductsArgs) =>
-        itemType
-          ? `items?_page=${page}^&_limit=${LIMIT}&itemType=${itemType}`
-          : `items?_page=${page}^&_limit=${LIMIT}`,
+      query: ({ page = 1, filters }: GetProductsArgs) =>
+        `items?_page=${page}&_limit=${LIMIT}${
+          filters?.itemType ? `&itemType=${filters.itemType}` : ""
+        }${
+          filters?.sortBy
+            ? `&_sort=${filters.sortBy}&_order=${
+                filters.sortDirection || "asc"
+              }`
+            : ""
+        }`,
       transformResponse: (data: ListResponse<Product>, meta) => {
         const total = Number(meta?.response?.headers.get("X-Total-Count"));
 

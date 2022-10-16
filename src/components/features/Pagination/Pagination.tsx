@@ -1,6 +1,6 @@
 import { FormattedMessage, FormattedNumber } from "react-intl";
 import ReactPaginate from "react-paginate";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { ReactComponent as LeftArrow } from "../../../assets/left-arrow.svg";
@@ -8,11 +8,10 @@ import { ReactComponent as RightArrow } from "../../../assets/right-arrow.svg";
 import { useGetProductsQuery } from "../../../services/productsApi";
 import { device } from "../../../theme/breakpoints";
 import { ROUTES } from "../../../utils/routes";
+import { useUrlParams } from "../Product/filters/useUrlParams";
 
 export const Pagination = () => {
-  const [searchParams] = useSearchParams();
-  const page = Number(searchParams.get("page")) || 1;
-  const itemType = searchParams.get("itemType");
+  const { itemType, page } = useUrlParams();
 
   const navigate = useNavigate();
 
@@ -20,7 +19,7 @@ export const Pagination = () => {
     data: products,
     isLoading,
     isFetching,
-  } = useGetProductsQuery({ page, itemType });
+  } = useGetProductsQuery({ page, filters: { itemType } });
 
   const totalPages = products?.total_pages || 1;
 
@@ -148,6 +147,7 @@ const StyledBigScreenPagination = styled(ReactPaginate).attrs({
     background-color: ${({ theme }) => theme.brand.secondary.text};
     color: white;
     min-width: 32px;
+    border-radius: 2px;
   }
   li.disabled a {
     color: grey;
@@ -220,13 +220,13 @@ const StyledPaginationItem = styled.button`
 
 const StyledPaginationNext = styled(StyledPaginationItem)`
   @media ${device.laptop} {
-    padding-left: 50px;
+    margin-left: 50px;
   }
 `;
 
 const StyledPaginationPrev = styled(StyledPaginationItem)`
   @media ${device.laptop} {
-    padding-right: 50px;
+    margin-right: 50px;
   }
 `;
 

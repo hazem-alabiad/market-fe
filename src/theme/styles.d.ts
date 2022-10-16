@@ -21,7 +21,9 @@ declare module "styled-components" {
 
     colors: {
       gray90: string;
+      black600: string;
       blueGray: string;
+      whiteSmoke: string;
     };
 
     text: {
@@ -30,12 +32,16 @@ declare module "styled-components" {
         fontWeight: CSSProperties["fontWeight"];
         lineHeight: CSSProperties["lineHeight"];
       };
+      h2: {
+        fontSize: CSSProperties["fontSize"];
+        fontWeight: CSSProperties["fontWeight"];
+        lineHeight: CSSProperties["lineHeight"];
+      };
     };
 
     letterSpacing: {
-      0.25: {
-        letterSpacing: CSSProperties["letterSpacing"];
-      };
+      0.25: CSSProperties["letterSpacing"];
+      0.15: CSSProperties["letterSpacing"];
     };
   }
 }

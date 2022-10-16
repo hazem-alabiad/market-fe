@@ -21,6 +21,7 @@ export const GlobalStyle = createGlobalStyle`
     font-size: 14px;
     line-height: 20px;
     background-color: ${({ theme }) => theme.colors.gray90};
+    color: ${({ theme }) => theme.colors.black600};
   }
 
   h1 {
@@ -46,7 +47,9 @@ export const theme: DefaultTheme = {
 
   colors: {
     gray90: "#F7F6F9",
+    black600: "#525252",
     blueGray: "#697488",
+    whiteSmoke: "#f2f0fd",
   },
 
   text: {
@@ -55,11 +58,15 @@ export const theme: DefaultTheme = {
       fontWeight: "400",
       lineHeight: "26px",
     },
+    h2: {
+      fontSize: "13px",
+      fontWeight: "600",
+      lineHeight: "18px",
+    },
   },
 
   letterSpacing: {
-    "0.25": {
-      letterSpacing: "0.25px",
-    },
+    "0.25": "0.25px",
+    "0.15": "0.15px",
   },
 };
