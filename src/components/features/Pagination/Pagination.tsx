@@ -1,24 +1,32 @@
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, FormattedNumber } from "react-intl";
 import ReactPaginate from "react-paginate";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { ReactComponent as LeftArrow } from "../../../assets/left-arrow.svg";
 import { ReactComponent as RightArrow } from "../../../assets/right-arrow.svg";
-import { useProductsQuery } from "../../../services/productsApi";
+import { useGetProductsQuery } from "../../../services/productsApi";
 import { device } from "../../../theme/breakpoints";
 import { ROUTES } from "../../../utils/routes";
 
 export const Pagination = () => {
   const [searchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
+  const itemType = searchParams.get("itemType");
+
   const navigate = useNavigate();
 
-  const { data: products, isLoading, isFetching } = useProductsQuery(page);
+  const {
+    data: products,
+    isLoading,
+    isFetching,
+  } = useGetProductsQuery({ page, itemType });
+
+  const totalPages = products?.total_pages || 1;
 
   return (
     <>
-      <CustomPagination
+      <StyledBigScreenPagination
         breakLabel="..."
         nextLabel={
           <StyledPaginationNext
@@ -26,7 +34,7 @@ export const Pagination = () => {
             onClick={() =>
               navigate({
                 search: `page=${page + 1}`,
-                pathname: ROUTES.products,
+                pathname: ROUTES.items,
               })
             }
           >
@@ -38,11 +46,11 @@ export const Pagination = () => {
         }
         onPageChange={(event) => {
           navigate({
-            search: `page=${event.selected}`,
-            pathname: ROUTES.products,
+            search: `page=${event.selected + 1}`,
+            pathname: ROUTES.items,
           });
         }}
-        pageCount={products?.total_pages || 0}
+        pageCount={totalPages}
         pageRangeDisplayed={4}
         previousLabel={
           <StyledPaginationPrev
@@ -50,7 +58,7 @@ export const Pagination = () => {
             onClick={() =>
               navigate({
                 search: `page=${page - 1}`,
-                pathname: ROUTES.products,
+                pathname: ROUTES.items,
               })
             }
           >
@@ -60,15 +68,62 @@ export const Pagination = () => {
             <FormattedMessage defaultMessage="Prev" id="LYaNlL" />
           </StyledPaginationPrev>
         }
+        renderOnZeroPageCount={() => null}
       />
+      <StyledSmallScreenPagination>
+        <StyledPaginationPrev
+          disabled={isFetching || isLoading || page === 1}
+          onClick={() =>
+            navigate({
+              search: `page=${page - 1}`,
+              pathname: ROUTES.items,
+            })
+          }
+        >
+          <StyledIconWrapper>
+            <LeftArrow />
+          </StyledIconWrapper>
+          <FormattedMessage defaultMessage="Prev" id="LYaNlL" />
+        </StyledPaginationPrev>
+        <select
+          onChange={() => {
+            navigate({
+              search: `page=${page + 1}`,
+              pathname: ROUTES.items,
+            });
+          }}
+          value={page}
+        >
+          {Array.from({ length: totalPages })
+            .map((_, index) => index + 1)
+            .map((pageNumber) => (
+              <option key={pageNumber}>
+                <FormattedNumber value={pageNumber} />
+              </option>
+            ))}
+        </select>
+        <StyledPaginationNext
+          disabled={isFetching || isLoading || page === products?.total_pages}
+          onClick={() =>
+            navigate({
+              search: `page=${page + 1}`,
+              pathname: ROUTES.items,
+            })
+          }
+        >
+          <FormattedMessage defaultMessage="Next" id="9+Ddtu" />
+          <StyledIconWrapper>
+            <RightArrow />
+          </StyledIconWrapper>
+        </StyledPaginationNext>
+      </StyledSmallScreenPagination>
     </>
   );
 };
 
-const CustomPagination = styled(ReactPaginate).attrs({
+const StyledBigScreenPagination = styled(ReactPaginate).attrs({
   activeClassName: "active",
 })`
-  display: flex;
   justify-content: space-between;
   list-style-type: none;
   align-items: center;
@@ -106,6 +161,35 @@ const CustomPagination = styled(ReactPaginate).attrs({
       fill: ${({ theme }) => theme.brand.secondary.text};
     }
     color: ${({ theme }) => theme.brand.secondary.text};
+  }
+
+  display: none;
+
+  @media ${device.tablet} {
+    display: flex;
+  }
+`;
+
+const StyledSmallScreenPagination = styled.nav`
+  display: flex;
+  gap: 16px;
+  color: ${({ theme }) => theme.brand.primary.text};
+  height: 36px;
+
+  path {
+    fill: ${({ theme }) => theme.brand.primary.text};
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+
+    & > * {
+      pointer-events: none;
+    }
+  }
+
+  @media ${device.tablet} {
+    display: none;
   }
 `;
 

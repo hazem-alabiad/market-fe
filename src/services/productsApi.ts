@@ -26,11 +26,19 @@ export type ListResponse<T> = {
 // number of results per page
 const LIMIT = 12;
 
+type GetProductsArgs = {
+  page: number;
+  itemType?: string | null;
+};
+
 export const productsApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000" }),
   endpoints: (builder) => ({
-    products: builder.query<ListResponse<Product>, number | void>({
-      query: (page = 1) => `items?_page=${page}^&_limit=${LIMIT}`,
+    getProducts: builder.query<ListResponse<Product>, GetProductsArgs | void>({
+      query: ({ page = 1, itemType }: GetProductsArgs) =>
+        itemType
+          ? `items?_page=${page}^&_limit=${LIMIT}&itemType=${itemType}`
+          : `items?_page=${page}^&_limit=${LIMIT}`,
       transformResponse: (data: ListResponse<Product>, meta) => {
         const total = Number(meta?.response?.headers.get("X-Total-Count"));
 
@@ -45,4 +53,4 @@ export const productsApi = createApi({
   }),
 });
 
-export const { useProductsQuery } = productsApi;
+export const { useGetProductsQuery } = productsApi;

@@ -10,7 +10,7 @@ export const App = () => {
       element: <HomePage />,
     },
     {
-      path: ROUTES.products,
+      path: ROUTES.items,
       element: <HomePage />,
     },
   ]);

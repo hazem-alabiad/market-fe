@@ -1,29 +1,34 @@
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
-import { useProductsQuery } from "../../../services/productsApi";
+import { useGetProductsQuery } from "../../../services/productsApi";
 import { Pagination } from "../Pagination/Pagination";
 import { ProductsGrid } from "./ProductsGrid";
 
 export const ProductList = () => {
   const [searchParams] = useSearchParams();
 
+  const itemType = searchParams.get("itemType");
   const page = Number(searchParams.get("page")) || 1;
 
-  const { data: products, isLoading, error } = useProductsQuery(page);
+  const {
+    data: products,
+    isLoading,
+    error,
+  } = useGetProductsQuery({ page, itemType });
 
   if (isLoading) {
-    return <div>Loading ...</div>;
+    return <StyledContainer>Loading ...</StyledContainer>;
   }
 
   if (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return <div>Error</div>;
+    return <StyledContainer>Error</StyledContainer>;
   }
 
   if (!products) {
-    return <div>No posts :(</div>;
+    return <StyledContainer>No posts :(</StyledContainer>;
   }
 
   return (
@@ -43,4 +48,8 @@ const StyledPaginationWrapper = styled.nav`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const StyledContainer = styled.div`
+  text-align: center;
 `;

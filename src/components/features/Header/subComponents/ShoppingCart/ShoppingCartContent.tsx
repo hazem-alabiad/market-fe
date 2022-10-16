@@ -62,6 +62,7 @@ const StyledContainer = styled.div<{ isOpen: boolean }>`
   padding: 22px;
   border: 4px solid ${({ theme }) => theme.brand.accent.background};
   border-radius: 2px;
+  background-color: ${({ theme }) => theme.brand.primary.background};
 
   display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
   flex-direction: column;

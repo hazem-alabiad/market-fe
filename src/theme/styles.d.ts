@@ -18,9 +18,24 @@ declare module "styled-components" {
         background: string;
       };
     };
-    color: {
+
+    colors: {
       gray90: string;
       blueGray: string;
+    };
+
+    text: {
+      h1: {
+        fontSize: CSSProperties["fontSize"];
+        fontWeight: CSSProperties["fontWeight"];
+        lineHeight: CSSProperties["lineHeight"];
+      };
+    };
+
+    letterSpacing: {
+      0.25: {
+        letterSpacing: CSSProperties["letterSpacing"];
+      };
     };
   }
 }

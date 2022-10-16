@@ -27,6 +27,7 @@ export const ShoppingCart = () => {
 const StyledShoppingCart = styled.div`
   color: ${({ theme }) => theme.brand.accent.text};
   display: flex;
+  cursor: pointer;
 `;
 
 const StyledPrice = styled.div`

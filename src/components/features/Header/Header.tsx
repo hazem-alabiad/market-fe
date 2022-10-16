@@ -32,6 +32,7 @@ export const Header = () => {
 
 const StyledHeader = styled.header`
   background-color: ${({ theme }) => theme.brand.accent.background};
+  margin-bottom: 38px;
 
   @media ${device.laptop} {
     padding: 0 104px;

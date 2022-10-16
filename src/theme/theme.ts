@@ -20,7 +20,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
     line-height: 20px;
-    background-color: ${({ theme }) => theme.color.gray90};
+    background-color: ${({ theme }) => theme.colors.gray90};
   }
 
   h1 {
@@ -44,8 +44,22 @@ export const theme: DefaultTheme = {
     },
   },
 
-  color: {
+  colors: {
     gray90: "#F7F6F9",
     blueGray: "#697488",
+  },
+
+  text: {
+    h1: {
+      fontSize: "20px",
+      fontWeight: "400",
+      lineHeight: "26px",
+    },
+  },
+
+  letterSpacing: {
+    "0.25": {
+      letterSpacing: "0.25px",
+    },
   },
 };
