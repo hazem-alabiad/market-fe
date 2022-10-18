@@ -54,7 +54,9 @@ type GetProductsArgs = {
 };
 
 export const serverApi = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: "https://getir-market-be.herokuapp.com",
+  }),
   endpoints: (builder) => ({
     getProducts: builder.query<
       GetProductsListResponse<Product>,

@@ -76,6 +76,8 @@ const StyledInput = styled.input`
 
 const StyledLabel = styled.label`
   cursor: pointer;
+  display: flex;
+  align-items: center;
 
   &::before {
     content: "";
