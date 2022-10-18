@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 import { useAppDispatch } from "../../../redux/store";
-import { Product } from "../../../services/productsApi";
+import { Product } from "../../../services/serverApi";
 import { device } from "../../../theme/breakpoints";
 import { addToCart } from "../pagination/header/shoppingCart/shoppingCartSlice";
 import { ProductCard } from "./ProductCard";

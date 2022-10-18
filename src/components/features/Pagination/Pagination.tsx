@@ -5,13 +5,14 @@ import styled from "styled-components";
 
 import { ReactComponent as LeftArrow } from "../../../assets/left-arrow.svg";
 import { ReactComponent as RightArrow } from "../../../assets/right-arrow.svg";
-import { useGetProductsQuery } from "../../../services/productsApi";
+import { useAppSelector } from "../../../redux/store";
+import { useGetProductsQuery } from "../../../services/serverApi";
 import { device } from "../../../theme/breakpoints";
-import { ROUTES } from "../../../utils/routes";
 import { useUrlParams } from "../product/filter/useUrlParams";
 
 export const Pagination = () => {
-  const { itemType, page } = useUrlParams();
+  const { page, pathname } = useUrlParams();
+  const filters = useAppSelector((state) => state.filters);
 
   const navigate = useNavigate();
 
@@ -19,7 +20,7 @@ export const Pagination = () => {
     data: products,
     isLoading,
     isFetching,
-  } = useGetProductsQuery({ page, filters: { itemType } });
+  } = useGetProductsQuery({ page, filters });
 
   const totalPages = products?.total_pages || 1;
 
@@ -33,7 +34,7 @@ export const Pagination = () => {
             onClick={() =>
               navigate({
                 search: `page=${page + 1}`,
-                pathname: ROUTES.items,
+                pathname,
               })
             }
           >
@@ -46,7 +47,7 @@ export const Pagination = () => {
         onPageChange={(event) => {
           navigate({
             search: `page=${event.selected + 1}`,
-            pathname: ROUTES.items,
+            pathname,
           });
         }}
         pageCount={totalPages}
@@ -57,7 +58,7 @@ export const Pagination = () => {
             onClick={() =>
               navigate({
                 search: `page=${page - 1}`,
-                pathname: ROUTES.items,
+                pathname,
               })
             }
           >
@@ -75,7 +76,7 @@ export const Pagination = () => {
           onClick={() =>
             navigate({
               search: `page=${page - 1}`,
-              pathname: ROUTES.items,
+              pathname,
             })
           }
         >
@@ -88,7 +89,7 @@ export const Pagination = () => {
           onChange={() => {
             navigate({
               search: `page=${page + 1}`,
-              pathname: ROUTES.items,
+              pathname,
             });
           }}
           value={page}
@@ -106,7 +107,7 @@ export const Pagination = () => {
           onClick={() =>
             navigate({
               search: `page=${page + 1}`,
-              pathname: ROUTES.items,
+              pathname,
             })
           }
         >

@@ -1,16 +1,14 @@
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
+
+import { ROUTES } from "../../../../utils/routes";
 
 export const useUrlParams = () => {
   const [searchParams] = useSearchParams();
-  const page = Number(searchParams.get("sort")) || 1;
-  const itemType = searchParams.get("itemType");
-  const sortBy = searchParams.get("sort");
-  const sortDirection = searchParams.get("order");
+  const { pathname } = useLocation();
+  const page = Number(searchParams.get("page")) || 1;
 
   return {
     page,
-    itemType,
-    sortBy,
-    sortDirection,
+    pathname: pathname === ROUTES["/"] ? ROUTES.items : pathname,
   };
 };

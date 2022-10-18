@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import ReactRedux, { TypedUseSelectorHook } from "react-redux";
 import {
   FLUSH,
   PAUSE,
@@ -13,34 +13,46 @@ import {
 import storage from "redux-persist/lib/storage";
 
 import { shoppingCartReducer } from "../components/features/pagination/header/shoppingCart/shoppingCartSlice";
-import { productsApi } from "../services/productsApi";
+import { filterReducer } from "../components/features/product/filter/filterSlice";
+import { serverApi } from "../services/serverApi";
 
-const persistConfig = {
-  key: "shoppingCart",
-  storage,
-};
+const persistedShoppingCartReducer = persistReducer(
+  {
+    key: "shoppingCart",
+    storage,
+  },
+  shoppingCartReducer
+);
 
-const persistedReducer = persistReducer(persistConfig, shoppingCartReducer);
+const persistentFilterReducer = persistReducer(
+  {
+    key: "filters",
+    storage,
+  },
+  filterReducer
+);
 
 export const store = configureStore({
   reducer: {
-    [productsApi.reducerPath]: productsApi.reducer,
-    shoppingCart: persistedReducer,
+    [serverApi.reducerPath]: serverApi.reducer,
+    shoppingCart: persistedShoppingCartReducer,
+    filters: persistentFilterReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(productsApi.middleware),
+    }).concat(serverApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;
 
-export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppDispatch: () => AppDispatch = ReactRedux.useDispatch;
 
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+export const useAppSelector: TypedUseSelectorHook<RootState> =
+  ReactRedux.useSelector;
 
 export const persistor = persistStore(store);

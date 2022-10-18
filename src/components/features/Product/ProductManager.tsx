@@ -1,12 +1,15 @@
+import { FormattedMessage } from "react-intl";
 import styled from "styled-components";
 
-import { useGetProductsQuery } from "../../../services/productsApi";
+import { useAppSelector } from "../../../redux/store";
+import { useGetProductsQuery } from "../../../services/serverApi";
 import { Pagination } from "../pagination/Pagination";
 import { useUrlParams } from "./filter/useUrlParams";
 import { ProductsGrid } from "./ProductsGrid";
 
 export const ProductList = () => {
-  const { itemType, page, sortBy, sortDirection } = useUrlParams();
+  const filters = useAppSelector((state) => state.filters);
+  const { page } = useUrlParams();
 
   const {
     data: products,
@@ -14,21 +17,33 @@ export const ProductList = () => {
     error,
   } = useGetProductsQuery({
     page,
-    filters: { itemType, sortBy, sortDirection },
+    filters,
   });
 
   if (isLoading) {
-    return <StyledContainer>Loading ...</StyledContainer>;
+    return (
+      <StyledContainer>
+        <FormattedMessage defaultMessage="Loading ..." id="Sd5mzZ" />
+      </StyledContainer>
+    );
   }
 
   if (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    return <StyledContainer>Error</StyledContainer>;
+    return (
+      <StyledContainer>
+        <FormattedMessage defaultMessage="Error" id="KN7zKn" />
+      </StyledContainer>
+    );
   }
 
-  if (!products) {
-    return <StyledContainer>No posts :(</StyledContainer>;
+  if (!products && !isLoading) {
+    return (
+      <StyledContainer>
+        <FormattedMessage defaultMessage="No posts :(" id="IixxXI" />
+      </StyledContainer>
+    );
   }
 
   return (

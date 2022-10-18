@@ -1,54 +1,69 @@
 import { FormattedMessage } from "react-intl";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { ROUTES } from "../../../../utils/routes";
+import { useAppDispatch, useAppSelector } from "../../../../redux/store";
+import { device } from "../../../../theme/breakpoints";
 import { Filter } from "../../../ui/Filter";
-import { useUrlParams } from "../filter/useUrlParams";
+import { toggleSorting } from "../filter/filterSlice";
 
 const FILTERS = [
   {
     label: <FormattedMessage defaultMessage="Price low to high" id="pBg89n" />,
-    query: `sort=price&order=asc`,
     key: "price-asc",
+    sortBy: "price",
+    direction: "asc",
   },
   {
     label: <FormattedMessage defaultMessage="Price high to low" id="tLlmXT" />,
-    query: `sort=price&order=desc`,
     key: "price-desc",
+    sortBy: "price",
+    direction: "desc",
   },
   {
     label: <FormattedMessage defaultMessage="New to old" id="+iXa1O" />,
-    query: `sort=added&order=desc`,
     key: "added-desc",
+    sortBy: "added",
+    direction: "desc",
   },
   {
     label: <FormattedMessage defaultMessage="Old to new" id="vpo7ww" />,
-    query: `sort=added&order=asc`,
     key: "added-asc",
+    sortBy: "added",
+    direction: "asc",
   },
 ];
 
-export const Sorting = () => {
-  const navigate = useNavigate();
-  const { sortBy, sortDirection } = useUrlParams();
+type Props = {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+};
+
+export const Sorting = ({ isOpen, setIsOpen }: Props) => {
+  const { sorting } = useAppSelector((state) => state.filters);
+  const dispatch = useAppDispatch();
 
   return (
-    <Filter header={<FormattedMessage defaultMessage="Sorting" id="GbhlqN" />}>
-      {FILTERS.map((filter) => (
-        <li key={filter.query}>
-          <StyledInput
-            checked={`${sortBy}-${sortDirection}` === filter.key}
-            id={filter.key}
-            name={filter.key}
-            onChange={() => {
-              navigate({ pathname: ROUTES.items, search: filter.query });
-            }}
-            type="radio"
-          />
-          <StyledLabel htmlFor={filter.key}>{filter.label}</StyledLabel>
-        </li>
-      ))}
+    <Filter
+      header={<FormattedMessage defaultMessage="Sorting" id="GbhlqN" />}
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+    >
+      <StyledList isOpen={isOpen}>
+        {FILTERS.map((filter) => (
+          <li key={filter.key}>
+            <StyledInput
+              checked={sorting?.key === filter.key}
+              id={filter.key}
+              name={filter.key}
+              onChange={() => {
+                dispatch(toggleSorting({ ...filter }));
+              }}
+              type="radio"
+            />
+            <StyledLabel htmlFor={filter.key}>{filter.label}</StyledLabel>
+          </li>
+        ))}
+      </StyledList>
     </Filter>
   );
 };
@@ -72,5 +87,27 @@ const StyledLabel = styled.label`
     height: 22px;
     margin-right: 12px;
     text-align: center;
+  }
+`;
+
+const StyledList = styled.ul<{ isOpen: boolean }>`
+  background-color: ${({ theme }) => theme.brand.primary.background};
+  box-shadow: 0px 6px 24px rgba(93, 62, 188, 0.04);
+  border-radius: 2px;
+  padding: 24px;
+  list-style: none;
+
+  display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
+  flex-direction: column;
+  gap: 16px;
+
+  @media ${device.desktop} {
+    display: flex;
+  }
+
+  input:checked + label:before {
+    content: "✓";
+    color: ${({ theme }) => theme.brand.secondary.text};
+    border-color: ${({ theme }) => theme.brand.secondary.text};
   }
 `;

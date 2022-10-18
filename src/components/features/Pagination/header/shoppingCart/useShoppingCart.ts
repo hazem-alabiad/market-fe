@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Product } from "../../../../../services/productsApi";
+import { Product } from "../../../../../services/serverApi";
 import { LOCAL_STORAGE_KEYS } from "../../../../../utils/constants";
 
 export type ShoppingCartItem = Pick<Product, "added" | "name" | "price"> & {

@@ -11,7 +11,7 @@ export const ProductCard = ({
   price,
   onClick,
 }: Pick<Product, "image" | "name" | "price"> & { onClick: () => void }) => (
-  <div>
+  <article>
     <StyledImgWrapper>
       <img src={image} width="100%" />
     </StyledImgWrapper>
@@ -27,7 +27,7 @@ export const ProductCard = ({
         onClick={onClick}
       />
     </StyledButtonWrapper>
-  </div>
+  </article>
 );
 
 const StyledImgWrapper = styled.div`

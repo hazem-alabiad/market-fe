@@ -1,4 +1,8 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  redirect,
+  RouterProvider,
+} from "react-router-dom";
 
 import { ROUTES } from "../utils/routes";
 import { HomePage } from "./features/HomePage";
@@ -8,6 +12,7 @@ export const App = () => {
     {
       path: ROUTES["/"],
       element: <HomePage />,
+      action: () => redirect(ROUTES["items"]),
     },
     {
       path: ROUTES.items,

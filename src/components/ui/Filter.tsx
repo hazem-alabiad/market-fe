@@ -1,30 +1,35 @@
-import React, { useState } from "react";
-import styled, { css } from "styled-components";
+import React from "react";
+import styled, { css, CSSProperties } from "styled-components";
 
 import { device } from "../../theme/breakpoints";
 import { Text } from "./Text";
 
 type Props = {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
   header: JSX.Element;
   children: React.ReactNode;
+  top?: CSSProperties["top"];
 };
 
-export const Filter = ({ header, children }: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
+export const Filter = ({
+  header,
+  top = 0,
+  children,
+  isOpen,
+  setIsOpen,
+}: Props) => (
+  <StyledContainer top={top}>
+    <StyledHeader isOpen={isOpen}>
+      <Text component="h2" onClick={() => setIsOpen(!isOpen)}>
+        {header}
+      </Text>
+    </StyledHeader>
+    {children}
+  </StyledContainer>
+);
 
-  return (
-    <StyledSortingContainer>
-      <StyledHeader isOpen={isOpen}>
-        <Text component="h2" onClick={() => setIsOpen(!isOpen)}>
-          {header}
-        </Text>
-      </StyledHeader>
-      <StyledList isOpen={isOpen}>{children}</StyledList>
-    </StyledSortingContainer>
-  );
-};
-
-const StyledSortingContainer = styled.div`
+const StyledContainer = styled.div<{ top: Props["top"] }>`
   line-height: 18px;
   color: ${({ theme }) => theme.colors.blueGray};
   list-style: none;
@@ -35,29 +40,7 @@ const StyledSortingContainer = styled.div`
     position: absolute;
     width: 296px;
     left: -312px;
-    top: 0;
-  }
-`;
-
-const StyledList = styled.ul<{ isOpen: boolean }>`
-  background-color: ${({ theme }) => theme.brand.primary.background};
-  box-shadow: 0px 6px 24px rgba(93, 62, 188, 0.04);
-  border-radius: 2px;
-  padding: 24px;
-  list-style: none;
-
-  display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
-  flex-direction: column;
-  gap: 16px;
-
-  @media ${device.desktop} {
-    display: flex;
-  }
-
-  input:checked + label:before {
-    content: "✓";
-    color: ${({ theme }) => theme.brand.secondary.text};
-    border-color: ${({ theme }) => theme.brand.secondary.text};
+    top: ${({ top }) => top};
   }
 `;
 
