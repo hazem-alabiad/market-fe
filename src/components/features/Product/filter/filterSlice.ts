@@ -1,17 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { ItemType } from "../../../../services/serverApi";
-
 const initialState: {
   manufacturers: Array<string>;
-  tag: Array<string>;
-  itemType: ItemType | null;
+  tag: string;
+  itemType: string;
   sorting: {
-    key: string;
-    sortBy: string;
-    direction: string;
-  } | null;
-} = { manufacturers: [], tag: [], itemType: null, sorting: null };
+    key?: string;
+    sortBy?: string;
+    direction?: string;
+  };
+} = { manufacturers: [], tag: "", itemType: "", sorting: {} };
 
 const filterSlice = createSlice({
   name: "filters",
@@ -33,29 +31,24 @@ const filterSlice = createSlice({
       );
     },
     toggleTag: (state, action) => {
-      const tag = state.tag.findIndex((item) => item === action.payload);
-
-      if (tag === -1) {
-        state.tag.push(action.payload);
+      if (state.tag === action.payload) {
+        state.tag = "";
         return;
       }
 
-      state.tag.splice(
-        state.tag.findIndex((item) => item === action.payload),
-        1
-      );
+      state.tag = action.payload;
     },
     toggleItemType: (state, action) => {
       if (state.itemType === action.payload) {
-        state.itemType = null;
+        state.itemType = "";
         return;
       }
 
       state.itemType = action.payload;
     },
     toggleSorting: (state, action) => {
-      if (state.sorting.key === action.payload.key) {
-        state.sorting = null;
+      if (state.sorting?.key === action.payload.key) {
+        state.sorting = {};
         return;
       }
 

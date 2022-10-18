@@ -10,7 +10,8 @@ type Props<Error> = {
   header: JSX.Element;
   top?: CSSProperties["top"];
   placeholder?: string;
-  list: Array<{ label: string; slug: string }>;
+  list: Array<{ label: string; key: string }>;
+  checkedList: Array<string>;
   isLoading: boolean;
   error: Error;
 
@@ -24,6 +25,7 @@ export const PropertyFilter = <Error,>({
   top = 0,
   placeholder = "",
   list,
+  checkedList,
   isLoading,
   error,
   onChange,
@@ -81,14 +83,15 @@ export const PropertyFilter = <Error,>({
         />
         <StyledList>
           {filteredList.map((item, index) => (
-            <li key={item.slug}>
+            <li key={item.key}>
               <StyledInput
-                id={`${index}_${item}`}
-                name={`${index}_${item}`}
-                onChange={() => onChange(item.slug)}
+                checked={checkedList.includes(item.key)}
+                id={`${index}_${item.key}`}
+                name={`${index}_${item.key}`}
+                onChange={() => onChange(item.key)}
                 type="checkbox"
               />
-              <StyledLabel htmlFor={`${index}_${item}`}>
+              <StyledLabel htmlFor={`${index}_${item.key}`}>
                 {item.label}
               </StyledLabel>
             </li>
@@ -162,6 +165,12 @@ const StyledList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 18px;
+  height: 142px;
+
+  li {
+    display: flex;
+    align-items: center;
+  }
 
   @media ${device.desktop} {
     width: 248px;

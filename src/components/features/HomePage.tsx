@@ -2,8 +2,11 @@ import { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import styled, { useTheme } from "styled-components";
 
-import { useAppDispatch } from "../../redux/store";
-import { useGetCompaniesQuery } from "../../services/serverApi";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import {
+  useGetCompaniesQuery,
+  useGetProductsQuery,
+} from "../../services/serverApi";
 import { device } from "../../theme/breakpoints";
 import { Text } from "../ui/Text";
 import { Footer } from "./Footer";
@@ -11,6 +14,7 @@ import { Header } from "./pagination/header/Header";
 import { toggleManufacturer, toggleTag } from "./product/filter/filterSlice";
 import { ItemTypeFilter } from "./product/filter/ItemTypeFilter";
 import { PropertyFilter } from "./product/filter/PropertyFilter";
+import { useUrlParams } from "./product/filter/useUrlParams";
 import { ProductList } from "./product/ProductManager";
 import { Sorting } from "./product/sorting/Sorting";
 
@@ -18,11 +22,22 @@ export const HomePage = () => {
   const [isSortingOpen, setIsSortingOpen] = useState(false);
   const [isBranFilterOpen, setIsBranFilterOpen] = useState(false);
   const [isTagFilterOpen, setIsTagFilterOpen] = useState(false);
-
-  const intl = useIntl();
   const { colors } = useTheme();
-  const { data: companies, isLoading, error } = useGetCompaniesQuery();
+  const intl = useIntl();
   const dispatch = useAppDispatch();
+
+  const filters = useAppSelector((state) => state.filters);
+  const { page } = useUrlParams();
+  const {
+    data: companies,
+    isLoading: companiesIsLoading,
+    error: companiesError,
+  } = useGetCompaniesQuery();
+  const {
+    data: products,
+    isLoading: productsIsLoading,
+    error: productsError,
+  } = useGetProductsQuery({ page, filters });
 
   return (
     <StyledPage>
@@ -35,13 +50,14 @@ export const HomePage = () => {
           <ItemTypeFilter />
           <Sorting isOpen={isSortingOpen} setIsOpen={setIsSortingOpen} />
           <PropertyFilter
-            error={error}
+            checkedList={filters.manufacturers}
+            error={companiesError}
             header={<FormattedMessage defaultMessage="Brands" id="jWfWEA" />}
-            isLoading={isLoading}
+            isLoading={companiesIsLoading}
             isOpen={isBranFilterOpen}
             list={Object.values(companies?.data || {}).map((company) => ({
               label: company.name,
-              slug: company.slug,
+              key: company.slug,
             }))}
             onChange={(value: string) => dispatch(toggleManufacturer(value))}
             placeholder={intl.formatMessage({
@@ -51,22 +67,28 @@ export const HomePage = () => {
             setIsOpen={setIsBranFilterOpen}
             top="240px"
           />
-          {/* <PropertyFilter
-            error={error}
+          <PropertyFilter
+            checkedList={[filters.tag || ""]}
+            error={productsError}
             header={<FormattedMessage defaultMessage="Tags" id="1EYCdR" />}
-            isLoading={isLoading}
+            isLoading={productsIsLoading}
             isOpen={isTagFilterOpen}
-            list={Object.values(companies?.data || {}).map((company) => ({
-              label: company.name,
-              slug: company.slug,
-            }))}
+            list={
+              Array.from(
+                new Set(products?.data.flatMap((product) => product.tags))
+              ).map((product) => ({
+                label: product,
+                key: product,
+              })) || []
+            }
+            onChange={(value: string) => dispatch(toggleTag(value))}
             placeholder={intl.formatMessage({
               defaultMessage: "Search tag",
               id: "Vz7ja9",
             })}
             setIsOpen={setIsTagFilterOpen}
-            top="648px"
-          /> */}
+            top="576px"
+          />
         </StyledHeaderContainer>
         <ProductList />
       </StyledProductsContainer>

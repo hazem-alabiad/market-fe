@@ -43,12 +43,13 @@ export type GetCompaniesListResponse<T> = {
 };
 
 type GetProductsArgs = {
-  page: number;
+  page?: number | null;
   filters?: {
     itemType?: string | null;
     sortBy?: string | null;
     direction?: string | null;
     manufacturers?: Array<string> | null;
+    tag?: string | null;
   };
 };
 
@@ -59,7 +60,9 @@ export const serverApi = createApi({
       GetProductsListResponse<Product>,
       GetProductsArgs | void
     >({
-      query: ({ page = 1, filters }: GetProductsArgs) => {
+      query: ({ page, filters }: GetProductsArgs) => {
+        const pagination = page ? `_page=${page}&_limit=${LIMIT}` : "";
+
         const itemTypeFilter = filters?.itemType
           ? `&itemType=${filters.itemType}`
           : "";
@@ -76,7 +79,9 @@ export const serverApi = createApi({
               .join("")
           : "";
 
-        return `items?_page=${page}&_limit=${LIMIT}${itemTypeFilter}${sortByFilter}${manufacturersFilter}`;
+        const tagFilter = filters?.tag ? `&tags_like=${filters.tag}` : "";
+
+        return `items?${pagination}${itemTypeFilter}${sortByFilter}${manufacturersFilter}${tagFilter}`;
       },
       transformResponse: (data: Array<Product>, meta) => {
         const total = Number(meta?.response?.headers.get("X-Total-Count"));
