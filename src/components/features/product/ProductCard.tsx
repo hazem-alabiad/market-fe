@@ -1,16 +1,19 @@
 import { FormattedMessage } from "react-intl";
 import styled from "styled-components";
 
+import { Product } from "../../../services/serverApi";
 import { Button } from "../../ui/Button";
 import { Price } from "../../ui/Price";
-import { Product } from "../HomePage";
 
 export const ProductCard = ({
   image,
   name,
   price,
   onClick,
-}: Pick<Product, "image" | "name" | "price"> & { onClick: () => void }) => (
+}: Pick<Product, "name" | "price"> & {
+  onClick: () => void;
+  image: string;
+}) => (
   <article>
     <StyledImgWrapper>
       <img src={image} width="100%" />
