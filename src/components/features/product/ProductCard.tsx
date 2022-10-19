@@ -14,9 +14,9 @@ export const ProductCard = ({
 }: Pick<Product, "name" | "price"> & {
   onClick: () => void;
   image: string;
-  placeholder: string;
+  placeholder?: string;
 }) => (
-  <article>
+  <article data-testid="product-card">
     <StyledImgWrapper>
       <img
         alt="product image"

@@ -16,7 +16,7 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
@@ -33,5 +33,8 @@
     {
       "path": "./tsconfig.node.json"
     }
+  ],
+  "types": [
+    "vitest/globals"
   ]
 }

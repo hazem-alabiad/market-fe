@@ -16,6 +16,7 @@ This is a simple market app that fetches live data with many e-stores features l
 6. Install `yarn` by `npm i yarn`
 7. Install dependencies by running `yarn install` or simply `yarn`
 8. Run the project `yarn dev` ... and happy coding 😀🧑‍💻
+9. Run the tests `yarn test`
 
 ## Project structure and design
 

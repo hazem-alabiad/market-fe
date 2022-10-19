@@ -1,8 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-import { ReactComponent as Logo } from "../../../../assets/logo.svg";
-import { device } from "../../../../theme/breakpoints";
+import { ReactComponent as Logo } from "../../../assets/logo.svg";
+import { device } from "../../../theme/breakpoints";
 import { ShoppingCart } from "./shoppingCart/ShoppingCart";
 import { ShoppingCartContent } from "./shoppingCart/ShoppingCartContent";
 

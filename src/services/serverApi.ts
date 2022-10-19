@@ -19,11 +19,11 @@ export type Product = {
   itemType: ItemType;
 };
 
-export type GetProductsListResponse<T> = {
+export type GetProductsListResponse = {
   per_page: number;
   total: number;
   total_pages: number;
-  data: T[];
+  data: Product[];
 };
 
 export type Company = {
@@ -37,9 +37,9 @@ export type Company = {
   contact: string;
 };
 
-export type GetCompaniesListResponse<T> = {
+export type GetCompaniesListResponse = {
   total: number;
-  data: Record<string, T>;
+  data: Record<string, Company>;
 };
 
 type GetProductsArgs = {
@@ -58,45 +58,44 @@ export const serverApi = createApi({
     baseUrl: "https://getir-market-be.herokuapp.com",
   }),
   endpoints: (builder) => ({
-    getProducts: builder.query<
-      GetProductsListResponse<Product>,
-      GetProductsArgs | void
-    >({
-      query: ({ page, filters }: GetProductsArgs) => {
-        const pagination = page ? `_page=${page}&_limit=${LIMIT}` : "";
+    getProducts: builder.query<GetProductsListResponse, GetProductsArgs | void>(
+      {
+        query: ({ page, filters }: GetProductsArgs) => {
+          const pagination = page ? `_page=${page}&_limit=${LIMIT}` : "";
 
-        const itemTypeFilter = filters?.itemType
-          ? `&itemType=${filters.itemType}`
-          : "";
+          const itemTypeFilter = filters?.itemType
+            ? `&itemType=${filters.itemType}`
+            : "";
 
-        const orderByFilter = filters?.direction || "asc";
+          const orderByFilter = filters?.direction || "asc";
 
-        const sortByFilter = filters?.sortBy
-          ? `&_sort=${filters.sortBy}&_order=${orderByFilter}`
-          : "";
+          const sortByFilter = filters?.sortBy
+            ? `&_sort=${filters.sortBy}&_order=${orderByFilter}`
+            : "";
 
-        const manufacturersFilter = filters?.manufacturers
-          ? filters.manufacturers
-              .map((manufacturer) => `&manufacturer=${manufacturer}`)
-              .join("")
-          : "";
+          const manufacturersFilter = filters?.manufacturers
+            ? filters.manufacturers
+                .map((manufacturer) => `&manufacturer=${manufacturer}`)
+                .join("")
+            : "";
 
-        const tagFilter = filters?.tag ? `&tags_like=${filters.tag}` : "";
+          const tagFilter = filters?.tag ? `&tags_like=${filters.tag}` : "";
 
-        return `items?${pagination}${itemTypeFilter}${sortByFilter}${manufacturersFilter}${tagFilter}`;
-      },
-      transformResponse: (data: Array<Product>, meta) => {
-        const total = Number(meta?.response?.headers.get("X-Total-Count"));
+          return `items?${pagination}${itemTypeFilter}${sortByFilter}${manufacturersFilter}${tagFilter}`;
+        },
+        transformResponse: (data: Array<Product>, meta) => {
+          const total = Number(meta?.response?.headers.get("X-Total-Count"));
 
-        return {
-          data,
-          total,
-          per_page: LIMIT,
-          total_pages: Math.ceil(total / LIMIT),
-        };
-      },
-    }),
-    getCompanies: builder.query<GetCompaniesListResponse<Company>, void>({
+          return {
+            data,
+            total,
+            per_page: LIMIT,
+            total_pages: Math.ceil(total / LIMIT),
+          };
+        },
+      }
+    ),
+    getCompanies: builder.query<GetCompaniesListResponse, void>({
       query: () => "companies",
       transformResponse: (data: Array<Company>) => ({
         data: Object.fromEntries(

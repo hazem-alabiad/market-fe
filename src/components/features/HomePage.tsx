@@ -10,7 +10,7 @@ import {
 import { device } from "../../theme/breakpoints";
 import { Text } from "../ui/Text";
 import { Footer } from "./Footer";
-import { Header } from "./pagination/header/Header";
+import { Header } from "./header/Header";
 import { toggleManufacturer, toggleTag } from "./product/filter/filterSlice";
 import { ItemTypeFilter } from "./product/filter/ItemTypeFilter";
 import { PropertyFilter } from "./product/filter/PropertyFilter";
