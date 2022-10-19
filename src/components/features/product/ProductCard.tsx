@@ -7,16 +7,23 @@ import { Price } from "../../ui/Price";
 
 export const ProductCard = ({
   image,
+  placeholder = "https://via.placeholder.com/200",
   name,
   price,
   onClick,
 }: Pick<Product, "name" | "price"> & {
   onClick: () => void;
   image: string;
+  placeholder: string;
 }) => (
   <article>
     <StyledImgWrapper>
-      <img src={image} width="100%" />
+      <img
+        alt="product image"
+        placeholder={placeholder}
+        src={image}
+        width="100%"
+      />
     </StyledImgWrapper>
     <StyledPrice>
       <Price theme="secondary" value={price} />
