@@ -29,8 +29,10 @@ const customRender = (ui: React.ReactElement, options = {}) =>
 export function renderWithProviders(
   ui: React.ReactElement,
   {
+    // @ts-ignore
     preloadedState = {},
     // automatically create a store instance if no store was passed in
+    // @ts-ignore
     store = configureStore({
       reducer: {
         [serverApi.reducerPath]: serverApi.reducer,
