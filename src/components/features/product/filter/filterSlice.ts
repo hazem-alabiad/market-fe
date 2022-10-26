@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Key } from "react";
 
 const initialState: {
   manufacturers: Array<string>;
   tag: string;
-  itemType: string;
+  itemType: Key | null;
   sorting: {
-    key?: string;
-    sortBy?: string;
-    direction?: string;
+    key?: Key | null;
+    sortBy?: string | null;
+    direction?: string | null;
   };
 } = { manufacturers: [], tag: "", itemType: "", sorting: {} };
 
@@ -15,7 +16,13 @@ const filterSlice = createSlice({
   name: "filters",
   initialState,
   reducers: {
-    toggleManufacturer: (state, action) => {
+    toggleManufacturer: (
+      state,
+      action: {
+        type: string;
+        payload: string;
+      }
+    ) => {
       const manufacturer = state.manufacturers.findIndex(
         (item) => item === action.payload
       );
@@ -30,7 +37,13 @@ const filterSlice = createSlice({
         1
       );
     },
-    toggleTag: (state, action) => {
+    toggleTag: (
+      state,
+      action: {
+        type: string;
+        payload: string;
+      }
+    ) => {
       if (state.tag === action.payload) {
         state.tag = "";
         return;
@@ -38,7 +51,13 @@ const filterSlice = createSlice({
 
       state.tag = action.payload;
     },
-    toggleItemType: (state, action) => {
+    toggleItemType: (
+      state,
+      action: {
+        type: string;
+        payload: Key | null;
+      }
+    ) => {
       if (state.itemType === action.payload) {
         state.itemType = "";
         return;
@@ -46,7 +65,13 @@ const filterSlice = createSlice({
 
       state.itemType = action.payload;
     },
-    toggleSorting: (state, action) => {
+    toggleSorting: (
+      state,
+      action: {
+        type: string;
+        payload: { key?: Key; sortBy?: string; direction?: string };
+      }
+    ) => {
       if (state.sorting?.key === action.payload.key) {
         state.sorting = {};
         return;

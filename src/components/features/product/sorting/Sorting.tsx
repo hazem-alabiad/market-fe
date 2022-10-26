@@ -56,7 +56,13 @@ export const Sorting = ({ isOpen, setIsOpen }: Props) => {
               id={filter.key}
               name={filter.key}
               onChange={() => {
-                dispatch(toggleSorting({ ...filter }));
+                dispatch(
+                  toggleSorting({
+                    direction: filter.direction,
+                    key: filter.key,
+                    sortBy: filter.sortBy,
+                  })
+                );
               }}
               type="radio"
             />

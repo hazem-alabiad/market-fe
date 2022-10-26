@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { Key } from "react";
 
 // number of results per page
 const LIMIT = 12;
@@ -45,11 +46,14 @@ export type GetCompaniesListResponse = {
 type GetProductsArgs = {
   page?: number | null;
   filters?: {
-    itemType?: string | null;
-    sortBy?: string | null;
-    direction?: string | null;
-    manufacturers?: Array<string> | null;
+    itemType?: Key | null;
     tag?: string | null;
+    manufacturers?: Array<string> | null;
+
+    sorting?: {
+      sortBy?: string | null;
+      direction?: string | null;
+    };
   };
 };
 
@@ -67,10 +71,10 @@ export const serverApi = createApi({
             ? `&itemType=${filters.itemType}`
             : "";
 
-          const orderByFilter = filters?.direction || "asc";
+          const orderByFilter = filters?.sorting?.direction || "asc";
 
-          const sortByFilter = filters?.sortBy
-            ? `&_sort=${filters.sortBy}&_order=${orderByFilter}`
+          const sortByFilter = filters?.sorting?.sortBy
+            ? `&_sort=${filters.sorting.sortBy}&_order=${orderByFilter}`
             : "";
 
           const manufacturersFilter = filters?.manufacturers
